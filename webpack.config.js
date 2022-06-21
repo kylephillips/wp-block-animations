@@ -19,11 +19,12 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 
 const config = {
 	entry: {
-		script: './assets/src-admin',
+		script_admin: './assets/src-admin',
+		script: './assets/src'
 	},
 	output: {
 		path: path.resolve( __dirname, './assets/dist/' ),
-		filename: 'scripts-admin.js',
+		filename: '[name].js',
 		libraryTarget: 'this',
 		// This fixes an issue with multiple webpack projects using chunking
 		// See https://webpack.js.org/configuration/output/#outputjsonpfunction
