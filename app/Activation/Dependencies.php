@@ -15,8 +15,9 @@ class Dependencies
 	*/
 	public function registerAdminScripts()
 	{	
+		$script_deps = apply_filters('wp_block_animations_script_dependencies', ['wp-blocks', 'wp-dom-ready', 'lodash', 'wp-editor']);
 		$dep = [
-			'dependencies' => ['wp-blocks', 'wp-dom-ready', 'lodash', 'wp-editor'],
+			'dependencies' => $script_deps,
 			'version' => WP_BLOCK_ANIMATIONS_VERSION
 		];
 		wp_enqueue_script(
