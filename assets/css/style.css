@@ -1,0 +1,11 @@
+.animated-standard {
+	transition: all 400ms ease;
+	position: relative;
+	top: 80px;
+	opacity: 0;
+}
+.animated-standard.active {
+	top: 0;
+	opacity: 1;
+	transition: all 400ms ease-in-out;
+}

@@ -7,6 +7,7 @@ class Dependencies
 	{
 		add_action('admin_init', [$this, 'registerAdminScripts']);
 		add_action('wp_enqueue_scripts', [$this, 'scripts']);
+		add_action( 'wp_enqueue_scripts', [$this, 'styles']);
 	}
 
 	/**
@@ -37,6 +38,19 @@ class Dependencies
 			[],
 			WP_BLOCK_ANIMATIONS_VERSION,
 			true
+		);
+	}
+
+	/**
+	* Enqueue the front end styles
+	*/
+	public function styles()
+	{
+		wp_enqueue_style(
+			'block-animations-styles',
+			WP_BLOCK_ANIMATIONS_DIRECTORY . '/assets/css/style.css',
+			[],
+			WP_BLOCK_ANIMATIONS_VERSION
 		);
 	}
 }
