@@ -13,6 +13,8 @@ Block Animations for WordPress adds block-level fade animations on scroll to Wor
 * core/list
 * core/separator
 
+The front end javascript requires no dependencies.
+
 ### Adding support for additional blocks
 
 To add the animation options to other/custom blocks, the `wp_block_animations_allowed_blocks` filter may be applied:

@@ -20,7 +20,7 @@ var BlockAnimations = function()
 			self.addClasses();
 			self.animateElements();
 		});
-		document.addEventListener('scroll', function(){
+		window.addEventListener('scroll', function(){
 			self.animateElements();
 		});
 	}
@@ -31,10 +31,10 @@ var BlockAnimations = function()
 	self.addClasses = function()
 	{
 		self.elements = document.querySelectorAll(self.selectors.element);
-		for ( let i = 0; i < self.elements.length; i++ ) {
-			let cssClass = self.elements[i].getAttribute(self.selectors.cssClass);
-			if ( typeof cssClass == 'undefined' || cssClass == '' || !cssClass ) self.elements[i].classList.add('animated-standard');
-		}
+		[...self.elements].forEach(function(el){
+			let cssClass = el.getAttribute(self.selectors.cssClass);
+			if ( typeof cssClass == 'undefined' || cssClass == '' || !cssClass ) el.classList.add('animated-standard');
+		});
 	}
 
 	/**
@@ -42,30 +42,48 @@ var BlockAnimations = function()
 	*/
 	self.animateElements = function()
 	{
-		for ( let i = 0; i < self.elements.length; i++ ){
-			let el = self.elements[i];
-			let elOffset = el.getBoundingClientRect();
-			elOffset = elOffset.top - window.scrollY;
-			let timeOffset = el.getAttribute(self.selectors.timeOffset);
-			let topOffset = el.getAttribute(self.selectors.topOffset);
+		let elementBounds, elementOffset, timeOffset, topOffset, animateAt;
 
-			if ( typeof timeOffset === 'undefined' || timeOffset === '' || !timeOffset ) timeOffset = '0';
-			if ( typeof topOffset === 'undefined' || topOffset === '' || !topOffset ) topOffset = .9;
+		[...self.elements].forEach(function(el){
+
+			elementBounds = self.getElementOffset(el);
+			elementOffset = elementBounds.top - window.scrollY;
 			
-			let animateAt = window.innerHeight * topOffset;
+			timeOffset = el.getAttribute(self.selectors.timeOffset);
+			topOffset = el.getAttribute(self.selectors.topOffset);
 
-			if ( elOffset < animateAt ) {
+			if ( typeof timeOffset === 'undefined' || timeOffset === '' || !timeOffset ) timeOffset = 0;
+			if ( typeof topOffset === 'undefined' || topOffset === '' || !topOffset ) topOffset = .9;
+
+			timeOffset = parseInt(timeOffset);
+			topOffset = parseFloat(topOffset);
+			
+			animateAt = window.innerHeight * topOffset;
+
+			if ( elementOffset < animateAt ) {
 				setTimeout(function(){
-					el.classList.add('active')
+					el.classList.add('active');
 				}, timeOffset);
 			} else {
 				setTimeout(function(){
-					el.classList.remove('active')
+					el.classList.remove('active');
 				}, timeOffset);
 			}
-		}
+		});
 	}
 
+	/**
+	* Get an element's offset (takes scrolling into account)
+	* @param element - DOM element
+	*/
+	self.getElementOffset = function(element)
+	{
+	    var de = document.documentElement;
+	    var box = element.getBoundingClientRect();
+	    var top = box.top + window.pageYOffset - de.clientTop;
+	    var left = box.left + window.pageXOffset - de.clientLeft;
+	    return { top: top, left: left };
+	}
 
 	return self.bindEvents();
 }
