@@ -1,10 +1,19 @@
 <?php
 namespace BlockAnimations\Activation;
 
+use BlockAnimations\Settings\SettingsRepository;
+
 class Dependencies
 {
+	/**
+	* Settings Repository
+	* @var obj
+	*/
+	private $settings;
+
 	public function __construct()
 	{
+		$this->settings = new SettingsRepository;
 		add_action('admin_init', [$this, 'registerAdminScripts']);
 		add_action('wp_enqueue_scripts', [$this, 'scripts']);
 		add_action( 'wp_enqueue_scripts', [$this, 'styles']);
@@ -39,6 +48,13 @@ class Dependencies
 			[],
 			WP_BLOCK_ANIMATIONS_VERSION,
 			true
+		);
+		$localized_data = [];
+		$localized_data['disable_scroll_up'] = ( $this->settings->disableScrollUp() ) ? '1' : '0';
+		wp_localize_script( 
+			'block-animations-scripts', 
+			'block_animations', 
+			$localized_data
 		);
 	}
 

@@ -66,7 +66,7 @@ var BlockAnimations = function()
 				}, timeOffset);
 			} else {
 				setTimeout(function(){
-					el.classList.remove('active');
+					if ( block_animations.disable_scroll_up !== '1' ) el.classList.remove('active');
 				}, timeOffset);
 			}
 		});

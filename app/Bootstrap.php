@@ -17,7 +17,7 @@ class Bootstrap
 	*/
 	public function defineGlobals()
 	{
-		define('WP_BLOCK_ANIMATIONS_VERSION', '1.0.0');
+		define('WP_BLOCK_ANIMATIONS_VERSION', '1.0.1');
 		define('WP_BLOCK_ANIMATIONS_DIRECTORY', plugins_url() . '/' . basename(dirname(dirname(__FILE__))));
 		define('WP_BLOCK_ANIMATIONS_VERSION_PATH', dirname(dirname(__FILE__)));
 	}
@@ -25,5 +25,6 @@ class Bootstrap
 	public function pluginInit()
 	{
 		new Activation\Dependencies;
+		new Settings\Settings;
 	}
 }
